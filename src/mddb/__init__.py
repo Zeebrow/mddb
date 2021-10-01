@@ -1,0 +1,1 @@
+from .mddb import Entry
