@@ -53,7 +53,7 @@ class Entry:
         return self.name
 
     def _init_entry(self):
-        logger.debug(f"{self.}")
+        #logger.debug(f"{self.}")
         try:
             self.exists = self._check_exists()
             if not self.exists:
