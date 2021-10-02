@@ -30,10 +30,10 @@ class TestCreateEntry(unittest.TestCase):
         self.w4 = Entry("test4", repo_path=self.this_repo)
 
     def tearDown(self):
+        #pass
         shutil.rmtree(self.this_repo)
         
     def test_entry_doesnt_exist_until_create(self):
-        """Not an attribute test, since depends on success of create()"""
         new_w5 = Entry("new_entry_5", repo_path=self.this_repo)
         self.assertFalse(new_w5.exists)
         new_w5.create()
@@ -62,36 +62,36 @@ class TestCreateEntry(unittest.TestCase):
         self.assertEqual(new_w5.readme, self.entry_readme)
         self.assertIsInstance(new_w5.prj_path, PathLike)
 
-    def test_create_entry_name_equals_prj_skel_dir_name(self):
-        """
-        Changes to how directories and files are named should fail tests
-        """
-        new_w5 = Entry("new_entry_5", repo_path=self.this_repo)
-        new_w5.create()
-        self.assertEqual(new_w5.name, basename(new_w5.prj_path))
-
-    def test_create_entry_creates_prj_skel(self):
-        """Test for README.md"""
-        entryname = "new_entry_5"
-        new_w5 = Entry(entryname, repo_path=self.this_repo)
-        self.assertFalse(Path(self.this_repo / "prj-skel" / entryname / "README.md").exists())
-        new_w5.create()
-        self.assertTrue(Path(self.this_repo / "prj-skel" / entryname / "README.md").exists())
-
-    def test_created_entry_block_equals_prj_readme(self):
-        new_w5 = Entry("new_entry_5", repo_path=self.this_repo)
-        new_w5.create()
-        with open(new_w5.readme, 'r') as md:
-            self.assertEqual(new_w5.block, md.read())
+#    def test_create_entry_name_equals_prj_skel_dir_name(self):
+#        """
+#        Changes to how directories and files are named should fail tests
+#        """
+#        new_w5 = Entry("new_entry_5", repo_path=self.this_repo)
+#        new_w5.create()
+#        self.assertEqual(new_w5.name, basename(new_w5.prj_path))
+#
+#    def test_create_entry_creates_prj_skel(self):
+#        """Test for README.md"""
+#        entryname = "new_entry_5"
+#        new_w5 = Entry(entryname, repo_path=self.this_repo)
+#        self.assertFalse(Path(self.this_repo / "prj-skel" / entryname / "README.md").exists())
+#        new_w5.create()
+#        self.assertTrue(Path(self.this_repo / "prj-skel" / entryname / "README.md").exists())
+#
+#    def test_created_entry_block_equals_prj_readme(self):
+#        new_w5 = Entry("new_entry_5", repo_path=self.this_repo)
+#        new_w5.create()
+#        with open(new_w5.readme, 'r') as md:
+#            self.assertEqual(new_w5.block, md.read())
     
-    def test_create_entry_appends_to_mddb_non_destructively(self):
-        with open(self.this_mddb, 'r') as wl:
-            before_create = wl.read()
-        new_w5 = Entry("new_entry_5", repo_path=self.this_repo)
-        new_w5.create()
-        with open(self.this_mddb, 'r') as wl:
-            after_create = wl.read()
-        self.assertEqual(len(before_create), len(after_create) - len(new_w5.block))
+#    def test_create_entry_appends_to_mddb_non_destructively(self):
+#        with open(self.this_mddb, 'r') as wl:
+#            before_create = wl.read()
+#        new_w5 = Entry("new_entry_5", repo_path=self.this_repo)
+#        new_w5.create()
+#        with open(self.this_mddb, 'r') as wl:
+#            after_create = wl.read()
+#        self.assertEqual(len(before_create), len(after_create) - len(new_w5.block))
     
     # def test_create_on_existing_entry_throws(self):
     #     self.assertTrue(False)

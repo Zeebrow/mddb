@@ -3,7 +3,7 @@ import logging
 from random import randint
 import shutil
 from pathlib import Path
-from mddb import get_entries
+from mddb import Utils
 from mddb import Entry
 import subprocess
 
@@ -39,23 +39,17 @@ class TestListEntries(unittest.TestCase):
 
     def test_list_entries(self):
         self.assertIsInstance(
-                get_entries(mddb_file=self.mddb), list)
+                Utils().get_entries(md_file=self.mddb), list)
         self.assertEqual(
-                get_entries(mddb_file=self.mddb)[0], "test1")
+                Utils().get_entries(md_file=self.mddb)[0], "test1")
 
     def test_get_entries_after_create_entry(self):
         w = Entry(entryname=self.entryname, repo_path=self.this_repo)
-        self.assertNotIn("new_entry_1", get_entries(mddb_file=self.mddb))
+        self.assertNotIn("new_entry_1", Utils().get_entries(md_file=self.mddb))
         w.create()
         self.assertIn(
                 self.entryname, 
-                get_entries(mddb_file=self.mddb))
-
-    def test_get_entries_after_delete_entry(self):
-        self.assertTrue(False)
-
-    def test_get_entries_after_edit_entry(self):
-        self.assertTrue(False)
+                Utils().get_entries(md_file=self.mddb))
 
 if __name__ == '__main__':
     unittest.main()

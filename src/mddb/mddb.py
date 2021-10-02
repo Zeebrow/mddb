@@ -32,11 +32,12 @@ class Entry:
     """
     Entrieses are the 'main' uint of data
     """
-    def __init__(self, entryname, md_file='mddb.md', repo_path='.'):
+    def __init__(self, entryname, level=1, md_file='mddb.md', repo_path='.'):
         # "bare-minimum"-like params
         self.exists = False
         self.name = entryname
         self.sections = None
+        self.level = level
         # config- and settings-like params
         self.entry_regex_ = re.compile("^##\s+(.*)$")
         self.repo_path = Path(repo_path)
@@ -53,11 +54,30 @@ class Entry:
         return self.name
 
     def _init_entry(self):
+        print("init")
         #logger.debug(f"{self.}")
         try:
             self.exists = self._check_exists()
             if not self.exists:
-                self.block = C.new_entry_skel(self.name)
+                print("it does not exist")
+                #default_entry_level_ = lambda level: "#"*self.level
+                #D= default_entry_level_
+                self.block = f"""
+## {self.name}
+
+### header 1
+
+### Usage
+
+```
+{self.name}
+```
+
+### Would Require
+
+### Difficulty
+
+"""
         except Exception as e:
             # what do if failure to launch
             raise e
@@ -86,8 +106,9 @@ class Entry:
         self.before = ''
         self.block = ''
         self.after = ''
-
+        
         with open(self.md_file, 'r') as wl:
+            
             append_output=False
             b4 = True
             after = False
@@ -98,6 +119,7 @@ class Entry:
                     after = True
                     append_output = False
                 if append_output:
+                    logger.debug(f"Found {self.name}")
                     self.block += line
                 if m and m.groups()[0] == self.name:
                     self.exists = True
@@ -116,25 +138,17 @@ class Entry:
             raise ValueError(f"Cannot create new entry '{self.name}' - already exists!")
 
         self._write_wishlist()
-        self._write_block_to_prj_skel()
+        #self._write_block_to_prj_skel()
         self._commit()
         logger.debug(f"Created new entry '{self.name}'.")
         return self._check_exists()
 
-    def pprint(self, raw=False, mdtext=''):
-        if raw:
-            print(self.block)
-            return
-        if mdtext == '':
-            prettyprint_mdtext.format_mdtext(mdtext=self.block)
-
     def update(self, mdtext):
         self.block = mdtext
         self._write_wishlist()
-        self._write_block_to_prj_skel()
+        #self._write_block_to_prj_skel()
         self._commit()
         logger.debug(f"Updated entry '{self.name}'.")
-
 
     def delete(self) -> bool:
         self._check_exists()
@@ -143,7 +157,7 @@ class Entry:
             raise ValueError(f"Could not delete entry '{self}': Does not exist.")
         self.block = ''
         self._write_wishlist()
-        self._remove_prj_skel()
+        #self._remove_prj_skel()
         logger.debug(f"Deleted entry '{self.name}'.")
         return not self._check_exists()
 
@@ -179,30 +193,11 @@ class Entry:
             remote.push()
 
 class Utils:
+    """garbage can"""
     def __init__(self):
         pass
 
-    def dont_run_this_lul(self):
-        default_entry_level_ = lambda level: "#"*level
-        D= default_entry_level_
-        new_default_entry_ = lambda entryname_: f"""\
-        {D} {entry_name_}
-
-        {D}# 
-
-        {D}# Usage
-
-        ```
-        {entry_name_}
-        ```
-
-        {D}# Would Require
-
-        {D}# Difficulty
-
-
-        """
-    def get_all_(self, md_file):
+    def get_entries(self, md_file):
         _regex = re.compile("^##\s+(.*)$")
         _list_ = []
         with open(md_file, 'r') as md:

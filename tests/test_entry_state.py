@@ -4,7 +4,7 @@ import shutil
 from os.path import basename
 from os import PathLike
 from pathlib import Path
-from mddb import Entry, check_prj_readme
+from mddb import Entry
 
 class TestCreateEntry(unittest.TestCase):    
 
@@ -29,9 +29,9 @@ class TestCreateEntry(unittest.TestCase):
         self.w3 = Entry("test3", repo_path=self.this_repo)
         self.w4 = Entry("test4bad_skel_no_match_wl", repo_path=self.this_repo)
 
-    def test_entry_check_prj_readme(self):
-        self.assertFalse(check_prj_readme(self.w4))
-        self.assertTrue(check_prj_readme(self.w1))
+#    def test_entry_check_prj_readme(self):
+#        self.assertFalse(check_prj_readme(self.w4))
+#        self.assertTrue(check_prj_readme(self.w1))
 
     def tearDown(self):
         shutil.rmtree(self.this_repo)

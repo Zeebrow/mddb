@@ -4,8 +4,7 @@ import shutil
 import os
 from os.path import basename
 from pathlib import Path
-from mddb import Entry, wish
-from mddb import get_entries
+from mddb import Entry
 
 class TestDeleteEntry(unittest.TestCase):    
     
@@ -42,10 +41,10 @@ class TestDeleteEntry(unittest.TestCase):
     def tearDown(self):
         shutil.rmtree(self.this_repo)
 
-    def test_del_entry_removes_prj_dir(self):
-        self.assertTrue(self.w3.prj_path.exists())
-        self.w3.delete()
-        self.assertFalse(self.w3.prj_path.exists())
+#    def test_del_entry_removes_prj_dir(self):
+#        self.assertTrue(self.w3.prj_path.exists())
+#        self.w3.delete()
+#        self.assertFalse(self.w3.prj_path.exists())
 
 
     def test_del_entry_doesnt_affect_other_entryes_in_wl(self):
