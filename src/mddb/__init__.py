@@ -1,1 +1,1 @@
-from .mddb import Entry
+from . import Entry

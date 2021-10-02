@@ -1,4 +1,5 @@
 import logging
+import re
 from os import stat, path
 import os
 import shutil
@@ -7,8 +8,6 @@ from shutil import rmtree
 import tempfile
 from pathlib import Path
 from git import Repo
-
-__all__ = ['Entry']
 
 logger = logging.getLogger(__name__)
 
@@ -23,58 +22,9 @@ logger = logging.getLogger(__name__)
 # each entry has arbitrary nested stuff, upt markdown's limit
 
 
-class Utils:
-    def __ini__(self):
-        pass
-
-    def get_all_(self, md_file):
-        _regex = re.compile("^##\s+(.*)$")
-        _list_ = []
-        with open(md_file, 'r') as md:
-            for line in md:
-                m = _regex.match(line)
-                if m:
-                    _list_.append(m.groups()[0].strip())
-        return _list_
-
-    def check_prj_readme(_md_ting_) -> bool:
-        """
-        leftovers from grandparent: 
-        save a _md_thing_ to a file..
-        could be useful
-        """
-        try:
-            with open(w.readme, 'r') as rm:
-                lines = rm.read()
-                if lines == w.block:
-                    return True
-                else:
-                    return False
-        except FileNotFoundError:
-            return False
 ##
 
-default_entry_level_ = lambda level: "#"*level
-D= default_entry_level_
-new_default_entry_ = lambda entryname_: f"""
-{D} {entry_name_}
-
-{D}# Synopsis
-
-{D}# Usage
-
-```
-{entry_name_}
-```
-
-{D}# Would Require
-
-{D}# Difficulty
-
-
-"""
 ###
-
 # maybe Entries should be recursive
 # Entry.entries returns next level of entries! :O
 
@@ -82,13 +32,15 @@ class Entry:
     """
     Entrieses are the 'main' uint of data
     """
-    def __init__(self, entryname, repo_path='.'):
+    def __init__(self, entryname, md_file='mddb.md', repo_path='.'):
         # "bare-minimum"-like params
         self.exists = False
         self.name = entryname
         self.sections = None
         # config- and settings-like params
         self.entry_regex_ = re.compile("^##\s+(.*)$")
+        self.repo_path = Path(repo_path)
+        self.md_file = self.repo_path / md_file
 
         # remove when separated
         self.prj_path = self.repo_path / "prj-skel" / self.name
@@ -101,6 +53,7 @@ class Entry:
         return self.name
 
     def _init_entry(self):
+        logger.debug(f"{self.}")
         try:
             self.exists = self._check_exists()
             if not self.exists:
@@ -225,22 +178,71 @@ class Entry:
             remote = self.repo.remote()
             remote.push()
 
+class Utils:
+    def __init__(self):
+        pass
+
+    def dont_run_this_lul(self):
+        default_entry_level_ = lambda level: "#"*level
+        D= default_entry_level_
+        new_default_entry_ = lambda entryname_: f"""\
+        {D} {entry_name_}
+
+        {D}# 
+
+        {D}# Usage
+
+        ```
+        {entry_name_}
+        ```
+
+        {D}# Would Require
+
+        {D}# Difficulty
+
+
+        """
+    def get_all_(self, md_file):
+        _regex = re.compile("^##\s+(.*)$")
+        _list_ = []
+        with open(md_file, 'r') as md:
+            for line in md:
+                m = _regex.match(line)
+                if m:
+                    _list_.append(m.groups()[0].strip())
+        return _list_
+
+    def check_prj_readme(_md_ting_) -> bool:
+        """
+        leftovers from grandparent: 
+        save a _md_thing_ to a file..
+        could be useful
+        """
+        try:
+            with open(w.readme, 'r') as rm:
+                lines = rm.read()
+                if lines == w.block:
+                    return True
+                else:
+                    return False
+        except FileNotFoundError:
+            return False
 
 # old code
 
-
-def _remove_prj_skel(self):
-    try:
-        rmtree(self.prj_path)
-        logger.debug(f"Removed project {self.prj_path} for entry '{self.name}'")
-        return
-    except FileNotFoundError as e:
-        logger.warning(f"Wish '{self.name}' has no associated project to delete!")
-        return
-
-def _write_block_to_prj_skel(self):
-    self.prj_path.mkdir(parents=True, exist_ok=True)
-    with open(self.readme, 'w') as sk:
-        b = sk.write(self.block)
-    logger.debug(f"Wrote {b} bytes to '{self.readme}' for entry '{self.name}'.")
+#
+#def _remove_prj_skel(self):
+#    try:
+#        rmtree(self.prj_path)
+#        logger.debug(f"Removed project {self.prj_path} for entry '{self.name}'")
+#        return
+#    except FileNotFoundError as e:
+#        logger.warning(f"Wish '{self.name}' has no associated project to delete!")
+#        return
+#
+#def _write_block_to_prj_skel(self):
+#    self.prj_path.mkdir(parents=True, exist_ok=True)
+#    with open(self.readme, 'w') as sk:
+#        b = sk.write(self.block)
+#    logger.debug(f"Wrote {b} bytes to '{self.readme}' for entry '{self.name}'.")
 

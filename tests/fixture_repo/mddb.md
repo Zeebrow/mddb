@@ -2,7 +2,7 @@
 ________
 ### Synopsis
 
-This is a test wish
+This is a test entry
 
 ### Usage
 
@@ -21,7 +21,7 @@ stuff
 ________
 ### Synopsis
 
-This is a test wish
+This is a test entry
 
 ### Usage
 
@@ -40,7 +40,7 @@ stuff
 ________
 ### Synopsis
 
-This is a test wish
+This is a test entry
 
 ### Usage
 
@@ -59,7 +59,7 @@ stuff
 ________
 ### Synopsis
 
-This is a test wish
+This is a test entry
 and it has a little extra.
 
 its prj-skel does not match this at all.

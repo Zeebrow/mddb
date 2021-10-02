@@ -2,7 +2,7 @@
 ________
 ### Synopsis
 
-This is a test wish
+This is a test entry
 
 ### Usage
 

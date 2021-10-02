@@ -6,25 +6,26 @@ from os import PathLike
 from pathlib import Path
 from mddb import Entry
 
-class TestCreateWish(unittest.TestCase):    
+class TestCreateEntry(unittest.TestCase):    
 
-    def gen_temp_wishlist(self, identifier: str):
+    def gen_temp_mddb(self, identifier: str):
         """
-        Generates a temporary wishlist (prj-skel directory and wishlist.md)
+        Generates a temporary mddb (prj-skel directory and mddb.md)
         by copying a template
         """
         tempdir_name = f"{identifier}_{randint(1000,9999)}_repo"
-        # for when run from wish repo's home
+        # for when run from repo's home
         basedir = Path(__file__).parent.resolve()
         newdir = basedir / tempdir_name
         shutil.copytree(Path(basedir/"fixture_repo"), newdir)
+        print(newdir)
         return newdir
     
     def setUp(self):
         """ """
-        self.this_repo = self.gen_temp_wishlist(identifier="test_create")
-        self.this_wishlist = self.this_repo / "wishlist.md"
-        self.w1 = Wish("test-commit-wish-1", repo_path=self.this_repo)
+        self.this_repo = self.gen_temp_mddb(identifier="test_create")
+        self.this_mddb = self.this_repo / "mddb.md"
+        self.w1 = Entry("test-commit-entry-1", repo_path=self.this_repo)
         self.w1.create()
 
     def tearDown(self):
