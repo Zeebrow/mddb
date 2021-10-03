@@ -108,11 +108,11 @@ class Entry:
         self.after = ''
         
         with open(self.md_file, 'r') as wl:
-            
+               
             append_output=False
             b4 = True
             after = False
-
+            code_fence_begin = {'```', '~~~'}
             for line in wl:
                 m = self.entry_regex_.match(line)
                 if m and append_output:
