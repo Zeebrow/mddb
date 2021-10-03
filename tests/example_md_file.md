@@ -320,7 +320,7 @@ heading from hyphens following
 ---
 
 
-thematic breaks
+# thematic breaks
 
 
    --   -
@@ -336,6 +336,16 @@ ___________
 **      *   *
 
 
+
+# AST and Setext
+
+this should be a heading
+----
+
+
+does anyone know if
+this will be a heading?
+--
 
 ```
 # heading inside codeblock
