@@ -322,9 +322,12 @@ heading from hyphens following
 
 thematic breaks
 
+
    --   -
 
 ***
+
+below looks bolder
 
 ___________
 
