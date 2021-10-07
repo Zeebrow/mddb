@@ -347,13 +347,17 @@ does anyone know if
 this will be a heading?
 --
 
-````bash and stuf that shouldn't match
+```
+
+bash and stuf that shouldn't match
 # heading inside codeblock
 #!/bin/bash
 echo hello world!
-`````
 
-```¯\_(ツ)_/¯
+````
+
+```
+¯\_(ツ)_/¯
 lol
 this is 
 code in codebloc
