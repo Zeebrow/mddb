@@ -23,10 +23,9 @@ class Parser:
         self.entries = []
 
     def parse(self):
-        rexs = Regex()
-        re_atx = re.compile(rexs.ATX_HEADING)
-        setext = re.compile(rexs.SETEXT)
-        codefence = re.compile(rexs.CODEFENCE)
+        re_atx = re.compile(ATX_HEADING)
+        setext = re.compile(SETEXT)
+        codefence = re.compile(CODEFENCE)
 
         current_context = 'base'
         in_codefence = False
