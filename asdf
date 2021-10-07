@@ -1,9 +1,0 @@
->>> import mddb
-Traceback (most recent call last):
-File "<stdin>", line 1, in <module>
-File "/home/zeebrow/repos/github.com/zeebrow/mddb/src/mddb/__init__.py", line 1, in <module>
-  from .mddb import Entry
-  File "<fstring>", line 1
-    (self.)
-          ^
-        SyntaxError: unexpected EOF while parsing
